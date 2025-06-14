@@ -18,11 +18,9 @@ rm -rf dist
 rm -rf node_modules/.vite
 rm -rf .turbo
 
-# Install dependencies if needed
-if [ ! -d "node_modules" ]; then
-    echo -e "${YELLOW}Installing dependencies...${NC}"
-    bun install --no-save
-fi
+# Always install dependencies in CI to ensure they're up to date
+echo -e "${YELLOW}Installing dependencies...${NC}"
+bun install --frozen-lockfile || bun install
 
 # Build with error handling
 echo -e "${YELLOW}Building web application with Remix...${NC}"

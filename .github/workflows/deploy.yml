@@ -33,10 +33,10 @@ jobs:
       - name: Install dependencies
         run: |
           echo "Installing dependencies with Bun..."
-          # Remove any existing lockfile to avoid conflicts
-          rm -f bun.lockb
-          # Fresh install to generate new lockfile
-          bun install --no-save
+          # Install at root level
+          bun install
+          # Also ensure web app dependencies are installed
+          cd apps/web && bun install
           
       - name: Build web application
         run: ./scripts/build-ci.sh
