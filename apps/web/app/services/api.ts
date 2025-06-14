@@ -1,4 +1,6 @@
-const API_URL = process.env.VITE_API_URL || 'http://localhost:8787';
+const API_URL = typeof window !== 'undefined' 
+  ? (window as any).ENV?.VITE_API_URL || 'http://localhost:8787'
+  : 'http://localhost:8787';
 
 export class ApiClient {
   private token: string | null = null;
