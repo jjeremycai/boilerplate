@@ -6,7 +6,8 @@ A scalable edge API built with Cloudflare Workers, Hono framework, and WorkOS au
 
 - **Runtime**: Cloudflare Workers (Edge)
 - **Framework**: Hono - Lightweight web framework
-- **Database**: D1 (SQLite) with volume-based sharding
+- **Database**: D1 (SQLite) with Drizzle ORM
+- **ORM**: Drizzle - Type-safe database queries
 - **KV Storage**: Cloudflare KV for key-value data
 - **Authentication**: WorkOS AuthKit
 - **Real-time**: Durable Objects for WebSockets
@@ -58,6 +59,53 @@ bun run typecheck
 
 # Deploy to production
 bun run deploy
+```
+
+## 🗃️ Drizzle ORM
+
+### Database Commands
+```bash
+# Generate migrations from schema
+bun run db:generate
+
+# Apply migrations to D1
+bun run db:migrate
+
+# Open Drizzle Studio (GUI)
+bun run db:studio
+
+# Push schema directly (dev only)
+bun run db:push
+```
+
+### Using Drizzle in Routes
+```typescript
+// Access database and services via middleware
+app.use('*', drizzleMiddleware);
+
+// In your route handler
+app.get('/projects', async (c) => {
+  const { services } = c.get('services');
+  const projects = await services.projects.listProjects(userId);
+  return c.json({ data: projects });
+});
+```
+
+### Type-Safe Queries
+```typescript
+// Direct query with Drizzle
+const users = await db
+  .select()
+  .from(users)
+  .where(eq(users.email, 'user@example.com'));
+
+// With relations
+const projectsWithTasks = await db.query.projects.findMany({
+  where: eq(projects.userId, userId),
+  with: {
+    tasks: true,
+  },
+});
 ```
 
 ## 🔐 Authentication

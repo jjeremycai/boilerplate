@@ -7,7 +7,10 @@
     "dev": "wrangler dev",
     "build": "echo 'Backend uses TypeScript directly with Cloudflare Workers, no build needed'",
     "deploy": "wrangler deploy",
-    "db:migrate": "wrangler d1 execute boilerplate-db --file=./src/db/schema.sql",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "wrangler d1 migrations apply boilerplate-db",
+    "db:studio": "drizzle-kit studio",
+    "db:push": "drizzle-kit push",
     "test": "bunx --bun vitest",
     "test:coverage": "bunx --bun vitest --coverage",
     "typecheck": "bunx --bun tsc --noEmit"
@@ -15,7 +18,9 @@
   "dependencies": {
     "hono": "^4.7.11",
     "@workos-inc/node": "^7.54.0",
-    "stripe": "^17.4.0"
+    "stripe": "^17.4.0",
+    "drizzle-orm": "^0.38.4",
+    "drizzle-kit": "^0.30.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250607.0",
