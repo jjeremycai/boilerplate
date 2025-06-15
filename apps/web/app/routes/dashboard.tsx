@@ -1,10 +1,10 @@
-import { useUser } from '@workos-inc/authkit-react'
+import { useAuth } from '@workos-inc/authkit-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { useNavigate } from '@remix-run/react'
 
 export default function Dashboard() {
-  const { user } = useUser()
+  const { user } = useAuth()
   const navigate = useNavigate()
 
   return (

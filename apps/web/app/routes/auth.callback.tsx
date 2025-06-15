@@ -4,13 +4,14 @@ import { useAuth } from '@workos-inc/authkit-react';
 
 export default function AuthCallback() {
   const navigate = useNavigate();
-  const { handleRedirectCallback } = useAuth();
+  const { user, isLoading } = useAuth();
 
   useEffect(() => {
-    handleRedirectCallback().then(() => {
+    // If user is authenticated, redirect to dashboard
+    if (!isLoading && user) {
       navigate('/dashboard');
-    });
-  }, [handleRedirectCallback, navigate]);
+    }
+  }, [user, isLoading, navigate]);
 
   return (
     <div className="flex h-screen items-center justify-center">
