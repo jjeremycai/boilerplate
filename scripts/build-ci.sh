@@ -26,10 +26,14 @@ bun install --frozen-lockfile || bun install
 echo -e "${YELLOW}Building web application with Remix...${NC}"
 
 # Build with Remix
-if NODE_OPTIONS="--max-old-space-size=8192" bun run build; then
+echo -e "${YELLOW}Running Remix build...${NC}"
+if NODE_OPTIONS="--max-old-space-size=8192" bun run build 2>&1; then
     echo -e "${GREEN}✓ Build successful${NC}"
 else
     echo -e "${RED}✗ Build failed${NC}"
+    echo -e "${RED}Trying to get more error details...${NC}"
+    # Try running build with more verbose output
+    NODE_OPTIONS="--max-old-space-size=8192" npx remix build --sourcemap 2>&1 || true
     exit 1
 fi
 
